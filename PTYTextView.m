@@ -2448,6 +2448,7 @@ NSMutableArray* screens=0;
     if (!workAroundControlBug) {
         // Let the IME process key events
         IM_INPUT_INSERT = NO;
+        doCommandBySelectorCalled = NO;
         if (debugKeyDown) {
             NSLog(@"PTYTextView keyDown send to IME");
         }
@@ -2456,6 +2457,7 @@ NSMutableArray* screens=0;
         // If the IME didn't want it, pass it on to the delegate
         if (!prev &&
             !IM_INPUT_INSERT &&
+            doCommandBySelectorCalled &&
             ![self hasMarkedText]) {
             if (debugKeyDown) {
                 NSLog(@"PTYTextView keyDown IME no, send to delegate");
@@ -4809,6 +4811,7 @@ static double EuclideanDistance(NSPoint p1, NSPoint p2) {
 /// NSTextInput stuff
 - (void)doCommandBySelector:(SEL)aSelector
 {
+    doCommandBySelectorCalled = YES;
     //NSLog(@"doCommandBySelector:%@", NSStringFromSelector(aSelector));
 
 #if GREED_KEYDOWN == 0
